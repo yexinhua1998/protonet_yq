@@ -2,7 +2,8 @@
 from prototypical_batch_sampler import PrototypicalBatchSampler
 from prototypical_loss import prototypical_loss as loss_fn
 from omniglot_dataset import OmniglotDataset
-from protonet import ProtoNet
+#from protonet import ProtoNet
+from wrn import WideResNet
 from parser_util import get_parser
 
 from tqdm import tqdm
@@ -54,12 +55,12 @@ def init_dataloader(opt, mode):
     return dataloader
 
 
-def init_protonet(opt):
+def init_protoresnet(opt):
     '''
     Initialize the ProtoNet
     '''
     device = 'cuda:0' if torch.cuda.is_available() and opt.cuda else 'cpu'
-    model = ProtoNet().to(device)
+    model = WideResNet(16.to(device)
     return model
 
 
@@ -189,7 +190,7 @@ def eval(opt):
 
     init_seed(options)
     test_dataloader = init_dataset(options)[-1]
-    model = init_protonet(options)
+    model = init_protoresnet(options)
     model_path = os.path.join(opt.experiment_root, 'best_model.pth')
     model.load_state_dict(torch.load(model_path))
 
@@ -216,7 +217,7 @@ def main():
     # trainval_dataloader = init_dataloader(options, 'trainval')
     test_dataloader = init_dataloader(options, 'test')
 
-    model = init_protonet(options)
+    model = init_protoresnet(options)
     optim = init_optim(options, model)
     lr_scheduler = init_lr_scheduler(options, optim)
     res = train(opt=options,
