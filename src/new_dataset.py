@@ -69,16 +69,15 @@ class OmniglotDataset(data.Dataset):
 
 def find_items(root_dir, classes):
     retour = []
-    #rots = [os.sep + 'rot000', os.sep + 'rot090', os.sep + 'rot180', os.sep + 'rot270']
     for (root, dirs, files) in os.walk(root_dir):
         for f in files:
             r = root.split(os.sep)
             #lr = len(r)
             t = [item for path in classes for item in path.split(os.sep)]
             label = r[-1]
-            for rot in rots:
-                if label in t and f in t and (f.endswith("jpg")):
-                    retour.extend([(f, label, root)])
+            #for rot in rots:
+            if label in t and f in t and (f.endswith("jpg")):
+                retour.extend([(f, label, root)])
     print("== Dataset: Found %d items " % len(retour))
     return retour
 
@@ -105,8 +104,8 @@ def load_img(path, idx):
     else:
         x = Image.open(path)
         IMG_CACHE[path] = x
-    x = x.rotate(float(rot))
-    #x = x.resize((224, 224))
+    #x = x.rotate(float(rot))
+    x = x.resize((28, 28))
     shape = 3, x.size[0], x.size[1]
     x = np.array(x, np.float32, copy=False)
     x = 1.0 - torch.from_numpy(x)
