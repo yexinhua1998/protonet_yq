@@ -60,7 +60,7 @@ def init_protoresnet(opt):
     Initialize the ProtoNet
     '''
     device = 'cuda:0' if torch.cuda.is_available() and opt.cuda else 'cpu'
-    model = WideResNet(16.to(device)
+    model = WideResNet(16).to(device)
     return model
 
 
