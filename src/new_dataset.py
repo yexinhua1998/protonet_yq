@@ -106,7 +106,7 @@ def load_img(path, idx):
         IMG_CACHE[path] = x
     #x = x.rotate(float(rot))
     x = x.resize((28, 28))
-    shape = 3, x.size[0], x.size[1]
+    shape = 1, x.size[0], x.size[1]
     x = np.array(x, np.float32, copy=False)
     x = 1.0 - torch.from_numpy(x)
     x = x.transpose(0, 1).contiguous().view(shape)
